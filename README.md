@@ -35,7 +35,8 @@ Here are some features of this application.
   - track total weights for resistence exercises
   - stats page for the last 7 exercises to keep track of your progress
 
-Deployed: https://t-fitness-tracker.herokuapp.com/
+Deployed: https://off-budget-tracker.herokuapp.com/
+
 
 ## License
 
