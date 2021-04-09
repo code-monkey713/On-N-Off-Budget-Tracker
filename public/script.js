@@ -25,5 +25,13 @@ const checkDatabase = () => {
 
 }
 
+// function to add to pending item indexedDB
+const saveRecord = (record) => {
+  console.log('Saved record called');
+  const transaction = db.transaction(['pending'], 'readwrite');
+  const store = transaction.objectStore('pending');
+  store.add(record);
+}
+
 // listen for app to come back online
 window.addEventListener('online', checkDatabase);
