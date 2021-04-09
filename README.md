@@ -4,7 +4,7 @@ License: ![License](https://img.shields.io/badge/license-MIT-green)
 
 ## Description 
 
-This application is 
+This application is for tracking your budget and it will work online or offline. Make sure to bookmark this app for the next time you will be going somewhere where your internet might be spotty or non existent. 
 
 Screenshots:
 
