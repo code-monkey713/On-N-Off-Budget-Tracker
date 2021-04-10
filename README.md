@@ -4,13 +4,13 @@ License: ![License](https://img.shields.io/badge/license-MIT-green)
 
 ## Description 
 
-This application is for tracking your budget and it will work online or offline. Make sure to bookmark this app for the next time you will be going somewhere where your internet might be spotty or non existent. 
+This application is for tracking your budget while you travel and it will work offline as well. Make sure to install the application on your devices for the next time you will be going somewhere where your internet might be spotty or non existent. 
 
 Screenshots:
 
-![License](./assets/screenshot-workout.png)
+![License](./assets/screenshot-main.png)
 
-![License](./assets/screenshot-stats.png)
+![License](./assets/screenshot-offline.png)
 
 ## Table of Contents
 
@@ -23,20 +23,19 @@ Screenshots:
 
 ## Installation
 
-You can use the deployed application at the link below in this readme. 
+You can use the deployed application at the link below in this readme. Alternatively, you can install the application as PWA. 
 
 ## Usage 
 
 Here are some features of this application. 
 
-  - user can add new exercises
-  - continue workout with selection from resistance or cardio
-  - track the distance for cardio exercises
-  - track total weights for resistence exercises
-  - stats page for the last 7 exercises to keep track of your progress
+  - the application will run offline and online
+  - you name the transaction and the transaction amount
+  - you can add or minus the funds you have entered
+  - funds are automatically calculated after you add or subtract the funds
+  - the total running is on top of the application
 
 Deployed: https://off-budget-tracker.herokuapp.com/
-
 
 ## License
 
