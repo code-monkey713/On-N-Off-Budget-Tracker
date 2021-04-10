@@ -50,7 +50,6 @@ self.addEventListener("fetch", function(evt) {
             if (response.status === 200) {
               cache.put(evt.request.url, response.clone());
             }
-
             return response;
           })
           .catch(err => {
@@ -62,6 +61,7 @@ self.addEventListener("fetch", function(evt) {
 
     return;
   }
+  
   evt.respondWith(
     caches.match(evt.request).then(function(response) {
       return response || fetch(evt.request);

@@ -1,18 +1,23 @@
 let db;
+let budgetVersion;
 
-const request = window.indexedDB.open("budget", 1);
+// const request = window.indexedDB.open("budget", 1);
+// const request = indexedDB.open('budget', budgetVersion || 21);
+const request = indexedDB.open('BudgetDB', budgetVersion || 21);
 
-request.onupgradeneeded = ({ target }) => {
-  // const db = target.result;
-  db = target.result;
-  const objectStore = db.createObjectStore("pending", { autoIncrement: true });
-};
+request.onupgradeneeded = function (e) {
+  console.log('Upgrade needed in IndexDB');
 
-request.onsuccess = e => {
-  console.log(request.result);
+  const { oldVersion } = e;
+  const newVersion = e.newVersion || db.version;
 
-  if (navigator.onLine) {
-    checkDatabase();
+  console.log(`DB Updated from version ${oldVersion} to ${newVersion}`);
+
+  db = e.target.result;
+
+  if (db.objectStoreNames.length === 0) {
+    // db.createObjectStore('pending', { autoIncrement: true });
+    db.createObjectStore('BudgetStore', { autoIncrement: true });
   }
 };
 
@@ -21,15 +26,61 @@ request.onerror = function (e) {
 };
 
 const checkDatabase = () => {
-  console.log('checking on the database');
+  console.log('checked on the database');
+  // let transaction = db.transaction(['pending'], 'readwrite');
+  let transaction = db.transaction(['BudgetStore'], 'readwrite');
+  // console.log('this is the transaction: ', transaction);
 
+  // const store = transaction.objectStore('pending');
+  const store = transaction.objectStore('BudgetStore');
+
+  const getAll = store.getAll();
+
+  getAll.onsuccess = function () {
+    // If there are items in the store, we need to bulk add them when we are back online
+    if (getAll.result.length > 0) {
+      fetch('/api/transaction/bulk', {
+        method: 'POST',
+        body: JSON.stringify(getAll.result),
+        headers: {
+          Accept: 'application/json, text/plain, */*',
+          'Content-Type': 'application/json',
+        },
+      })
+        .then((response) => response.json())
+        .then((res) => {
+          if (res.length !== 0) {
+            // transaction = db.transaction(['pending'], 'readwrite');
+            transaction = db.transaction(['BudgetStore'], 'readwrite');
+
+            // const currentStore = transaction.objectStore('pending');
+            const currentStore = transaction.objectStore('BudgetStore');
+
+            currentStore.clear();
+            console.log('Clearing store 🧹');
+          }
+        });
+    }
+  };
 }
+
+request.onsuccess = (e) => {
+  console.log(request.result);
+  db = e.target.result;
+
+  if (navigator.onLine) {
+    console.log('Backend online! 🗄️');
+    checkDatabase();
+  }
+};
 
 // function to add to pending item indexedDB
 const saveRecord = (record) => {
   console.log('Saved record called');
-  const transaction = db.transaction(['pending'], 'readwrite');
-  const store = transaction.objectStore('pending');
+  // const transaction = db.transaction(['pending'], 'readwrite');
+  const transaction = db.transaction(['BudgetStore'], 'readwrite');
+  // const store = transaction.objectStore('pending');
+  const store = transaction.objectStore('BudgetStore');
   store.add(record);
 }
 
